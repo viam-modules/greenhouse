@@ -18,6 +18,7 @@ The following attribute template can be used to configure this model.
     "lights_off_hour": <int>,
     "fan_on_above_humidity": <int>,
     "fan_off_below_humidity": <int>,
+    "maintain_soil_moisture_level": <int>,
     "alerts": {
         "above_humidity": <int>,
         "below_humidity": <int>,
@@ -33,6 +34,7 @@ The following attribute template can be used to configure this model.
 | `lights_off_hour` |int         | Optional         | 24 hour local clock hour to turn off lights. Default 22 |
 | `fan_on_above_humidity` | int     | Optional         | Fan goes on above this humidity (default 70)             |
 | `fan_off_below_humidity` | int     | Optional         | Fan goes off above this humidity (default 40)             |
+| `maintain_soil_moisture_level` | int     | Optional         | Target soil moisture level to maintain (default 1000)             |
 | `alerts`  |   map[string, int]    | Optional  | Thresholds for above_humidity and below_humidity which send an email |
 
 #### Example configuration
@@ -44,6 +46,7 @@ The following attribute template can be used to configure this model.
     "lights_off_hour": 22,
     "fan_on_above_humidity": 65,
     "fan_off_below_humidity": 40,
+    "maintain_soil_moisture_level": 1000,
     "alerts": {
         "above_humidity": 70,
         "below_humidity": 15,
