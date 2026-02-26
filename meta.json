@@ -2,7 +2,7 @@
   "$schema": "https://dl.viam.dev/module.schema.json",
   "module_id": "viam:greenhouse",
   "visibility": "public",
-  "url": "",
+  "url": "https://github.com/viam-modules/greenhouse",
   "description": "Modular generic component: hackathon-greenhouse-demo",
   "applications": null,
   "markdown_link": "README.md",
