@@ -2,6 +2,3 @@
 viam-sdk==0.71.0
 
 typing-extensions
-
-stevebriskin:scd4x:scd4x
-viam:greenhouse-fan1:greenhouse-fan1 
