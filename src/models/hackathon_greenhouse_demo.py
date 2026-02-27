@@ -182,10 +182,12 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
     async def turn_light_off(self):
         """Turn off the light."""
+        self.logger.info("turning light off")
         await self.toggle_light(0)
 
     async def turn_light_on(self):
         """Turn on the light."""
+        self.logger.info("turning light on")
         await self.toggle_light(1)
 
     async def check_humidity(self) -> float:
@@ -238,6 +240,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
             async def monitor():
                 while not self.stop_event.is_set():
+                    self.logger.info("at start of fan control loop")
                     try:
                         humidity = await self.check_humidity()
                         gpio_pin = await main_board.gpio_pin_by_name("11")
@@ -281,6 +284,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
             async def monitor():
                 while not self.stop_event.is_set():
+                    self.logger.info("in watering loop")
                     try:
                         moisture = await self.check_moisture()
 
@@ -316,6 +320,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
             async def monitor():
                 while not self.stop_event.is_set():
+                    self.logger.info("at start of control lights loop")
                     try:
                         now = datetime.now()
                         current_hour = now.hour
@@ -376,6 +381,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
         timeout: Optional[float] = None,
         **kwargs
     ) -> Mapping[str, ValueTypes]:
+        return {"hello": "world"}
         self.logger.error("`do_command` is not implemented")
         raise NotImplementedError()
 
