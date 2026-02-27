@@ -198,7 +198,6 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
                 if isinstance(sensor, Sensor):
                     readings = await sensor.get_readings()
                     if "relative_humidity" in readings:
-                        self.logger.info(f"returning humidity {readings["relative_humidity"]}")
                         return readings["relative_humidity"]
                     raise KeyError("relative_humidity not found in sensor readings")
         raise ValueError("temp-moisture-sensor not found in dependencies")
