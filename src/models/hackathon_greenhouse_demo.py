@@ -192,7 +192,6 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
     async def check_humidity(self) -> float:
         """Get the current relative humidity from the temperature/moisture sensor."""
-        self.logger.info("checking humidity")
         for resource_name, resource in self.dependencies.items():
             if resource_name.name == "temp-moisture-sensor":
                 sensor = resource
@@ -206,7 +205,6 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
     async def check_moisture(self) -> float:
         """Get the average moisture level from all soil sensors."""
-        self.logger.info("checking moisture")
         moisture_readings = []
 
         for resource_name, resource in self.dependencies.items():
