@@ -182,26 +182,31 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
     async def turn_light_off(self):
         """Turn off the light."""
+        self.logger.info("turning light off")
         await self.toggle_light(0)
 
     async def turn_light_on(self):
         """Turn on the light."""
+        self.logger.info("turning light on")
         await self.toggle_light(1)
 
     async def check_humidity(self) -> float:
         """Get the current relative humidity from the temperature/moisture sensor."""
+        self.logger.info("checking humidity")
         for resource_name, resource in self.dependencies.items():
             if resource_name.name == "temp-moisture-sensor":
                 sensor = resource
                 if isinstance(sensor, Sensor):
                     readings = await sensor.get_readings()
                     if "relative_humidity" in readings:
+                        self.logger.info(f"returning humidity {readings["relative_humidity"]}")
                         return readings["relative_humidity"]
                     raise KeyError("relative_humidity not found in sensor readings")
         raise ValueError("temp-moisture-sensor not found in dependencies")
 
     async def check_moisture(self) -> float:
         """Get the average moisture level from all soil sensors."""
+        self.logger.info("checking moisture")
         moisture_readings = []
 
         for resource_name, resource in self.dependencies.items():
@@ -238,6 +243,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
             async def monitor():
                 while not self.stop_event.is_set():
+                    self.logger.info("at start of fan control loop")
                     try:
                         humidity = await self.check_humidity()
                         gpio_pin = await main_board.gpio_pin_by_name("11")
@@ -281,6 +287,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
             async def monitor():
                 while not self.stop_event.is_set():
+                    self.logger.info("in watering loop")
                     try:
                         moisture = await self.check_moisture()
 
@@ -316,6 +323,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
             async def monitor():
                 while not self.stop_event.is_set():
+                    self.logger.info("at start of control lights loop")
                     try:
                         now = datetime.now()
                         current_hour = now.hour
@@ -376,6 +384,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
         timeout: Optional[float] = None,
         **kwargs
     ) -> Mapping[str, ValueTypes]:
+        return {"hello": "world"}
         self.logger.error("`do_command` is not implemented")
         raise NotImplementedError()
 

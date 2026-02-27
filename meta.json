@@ -8,6 +8,13 @@
   "markdown_link": "README.md",
   "entrypoint": "dist/main",
   "first_run": "",
+  "models": [
+    {
+      "api": "rdk:component:generic",
+      "model": "viam:greenhouse:hackathon-greenhouse-demo",
+      "markdown_link": "viam_greenhouse_hackathon-greenhouse-demo.md"
+    }
+  ],
   "build": {
     "build": "./build.sh",
     "setup": "./setup.sh",
