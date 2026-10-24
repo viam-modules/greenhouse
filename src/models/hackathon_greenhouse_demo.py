@@ -1,5 +1,4 @@
-from typing import (Any, ClassVar, Dict, Final, List, Mapping, Optional,
-                    Sequence, Tuple)
+from typing import Any, ClassVar, Dict, Final, List, Mapping, Optional, Sequence, Tuple
 import asyncio
 import threading
 from datetime import datetime, timedelta
@@ -98,13 +97,14 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
                 )
 
         # Stop existing background threads if they exist
-        if hasattr(self, 'stop_event'):
+        if hasattr(self, "stop_event"):
             old_stop_event = self.stop_event
             old_stop_event.set()
 
             # Give old threads a moment to notice the stop event and exit
             # They check every second in their sleep loops
             import time
+
             time.sleep(2)
 
         # Create new stop event for the new threads
@@ -141,7 +141,10 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
         for field in int_fields:
             if field in attrs:
                 val = attrs[field]
-                if val.WhichOneof("kind") != "number_value" or val.number_value % 1 != 0:
+                if (
+                    val.WhichOneof("kind") != "number_value"
+                    or val.number_value % 1 != 0
+                ):
                     raise ValueError(f'"{field}" must be an int')
 
         if "alerts" in attrs:
@@ -151,7 +154,10 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
             for alert_field in ["above_humidity", "below_humidity"]:
                 if alert_field in alert_fields:
                     val = alert_fields[alert_field]
-                    if val.WhichOneof("kind") != "number_value" or val.number_value % 1 != 0:
+                    if (
+                        val.WhichOneof("kind") != "number_value"
+                        or val.number_value % 1 != 0
+                    ):
                         raise ValueError(f'"alerts.{alert_field}" must be an int')
 
         req_deps = []
@@ -213,10 +219,14 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
                     if "moisture" in readings:
                         moisture_readings.append(readings["moisture"])
                     else:
-                        self.logger.warning(f"Sensor {resource_name.name} does not have 'moisture' reading")
+                        self.logger.warning(
+                            f"Sensor {resource_name.name} does not have 'moisture' reading"
+                        )
 
         if not moisture_readings:
-            raise ValueError("No soil sensors with moisture readings found in dependencies")
+            raise ValueError(
+                "No soil sensors with moisture readings found in dependencies"
+            )
 
         return sum(moisture_readings) / len(moisture_readings)
 
@@ -313,6 +323,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
 
     def control_lights(self):
         """Start a background thread to control lights based on schedule."""
+
         def light_control_loop():
             """Background thread loop to turn lights on and off at scheduled times."""
             loop = asyncio.new_event_loop()
@@ -342,16 +353,22 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
                         # Calculate sleep time
                         if action == "on" and current_hour >= self.lights_off_hour:
                             # Need to wait until tomorrow
-                            target_time = (now + timedelta(days=1)).replace(hour=target_hour, minute=0, second=0, microsecond=0)
+                            target_time = (now + timedelta(days=1)).replace(
+                                hour=target_hour, minute=0, second=0, microsecond=0
+                            )
                         else:
-                            target_time = now.replace(hour=target_hour, minute=0, second=0, microsecond=0)
+                            target_time = now.replace(
+                                hour=target_hour, minute=0, second=0, microsecond=0
+                            )
 
                         sleep_seconds = (target_time - now).total_seconds()
 
                         # Sleep in intervals to check stop_event
                         if sleep_seconds > 0:
                             elapsed = 0
-                            while elapsed < sleep_seconds and not self.stop_event.is_set():
+                            while (
+                                elapsed < sleep_seconds and not self.stop_event.is_set()
+                            ):
                                 sleep_chunk = min(60, sleep_seconds - elapsed)
                                 await asyncio.sleep(sleep_chunk)
                                 elapsed += sleep_chunk
@@ -379,7 +396,7 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
         command: Mapping[str, ValueTypes],
         *,
         timeout: Optional[float] = None,
-        **kwargs
+        **kwargs,
     ) -> Mapping[str, ValueTypes]:
         return {"hello": "world"}
         self.logger.error("`do_command` is not implemented")
@@ -390,4 +407,3 @@ class HackathonGreenhouseDemo(Generic, EasyResource):
     ) -> Sequence[Geometry]:
         self.logger.error("`get_geometries` is not implemented")
         raise NotImplementedError()
-
