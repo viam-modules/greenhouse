@@ -1,12 +1,11 @@
-from typing import Any, ClassVar, Dict, Final, List, Mapping, Optional, Sequence, Tuple
 import asyncio
 import threading
 from datetime import datetime, timedelta
+from typing import Any, ClassVar, Dict, Mapping, Optional, Sequence, Tuple
 
 from typing_extensions import Self
-
-from viam.components.generic import *
 from viam.components.board import Board
+from viam.components.generic import *
 from viam.components.sensor import Sensor
 from viam.components.switch import Switch
 from viam.proto.app.robot import ComponentConfig
